@@ -280,14 +280,14 @@ func Run(
 			ourAddr := ethcrypto.PubkeyToAddress(gk.PublicKey)
 
 			ctr := int64(0)
-			tick := time.NewTicker(15 * time.Second)
-			defer tick.Stop()
+			timer := time.NewTicker(time.Millisecond)
 
 			for {
 				select {
 				case <-ctx.Done():
 					return
-				case <-tick.C:
+				case <-timer.C:
+					timer.Reset(15 * time.Second)
 
 					// create a heartbeat
 					b := func() []byte {
